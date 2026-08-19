@@ -90,4 +90,11 @@ Once a user confirms a location on the 3D model, the 3D Engine MUST generate a s
 
 
 
-7. Requirement Traceability MatrixRequirement IDModulePrimary UserAssociated Journey3D-NAV-[001-004]3D EngineGuest / RegisteredJourney 1 & 2 (Step 3)3D-CTRL-[001-003]Viewport UIGuest / RegisteredJourney 1 & 2 (Step 3)3D-DATA-[001-002]AI BridgeSystem EngineJourney 1 & 2 (Step 3 to Step 4)3D-PERF-[001-003]PerformanceWebGL / EngineNFR Performance (PERF-002)
+## 7. Requirement Traceability Matrix
+
+| Requirement ID | Module | Primary User | Associated Journey |
+| --- | --- | --- | --- |
+| 3D-NAV-001 to 004 | 3D Engine | Guest / Registered | Journey 1 & 2 (Step 3) |
+| 3D-CTRL-001 to 003 | Viewport UI | Guest / Registered | Journey 1 & 2 (Step 3) |
+| 3D-DATA-001 to 002 | AI Bridge | System Engine | Journey 1 & 2 (Step 3 to Step 4) |
+| 3D-PERF-001 to 003 | Performance | WebGL / Engine | NFR Performance (PERF-002) |
