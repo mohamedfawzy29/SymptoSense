@@ -149,3 +149,53 @@ This document outlines the core user journeys for **SymptoSense**. The goal of d
 * **ROLE-002 (Data Isolation):** Authenticated users MUST only query assessment history matching their authenticated `User ID`.
 * **ROLE-003 (Emergency Guardrail):** Emergency detection logic MUST take precedence over standard dynamic follow-up questioning.
 * **ROLE-004 (Session Migration):** The backend MUST provide an atomic endpoint to migrate guest assessment records upon user sign-up.
+
+
+
+
+Markdown
+---
+
+## Journey 4: Medical Reviewer / Clinical Auditor Flow
+
+### Primary Actor
+* **Medical Reviewer / Clinical Specialist** (طبيب / مراجع طبي معتمد)
+
+### Core Objective
+Audit anonymized assessment logs, validate AI specialty mapping accuracy, flag unsafe or inaccurate clinical prompts, and maintain clinical safety standards without compromising user privacy.
+
+---
+
+### Step-by-Step Flow
+
+[Login via Medical Portal] ──> [Access Clinical Dashboard]
+│
+▼
+[Select Anonymized Assessment]
+│
+▼
+[Review AI Reasoning & Outputs]
+│
+┌──────────────────────┴──────────────────────┐
+▼                                             ▼
+[Approved / Accurate]                      [Flagged / Incorrect Mapping]
+│                                             │
+▼                                             ▼
+[Mark as Clinically Valid]                   [Add Clinical Feedback & Correct Taxonomy]
+
+
+### Detailed Interaction Table
+
+| Step | User Action (Medical Reviewer) | System Response | Data State & Safety Rules |
+| :--- | :--- | :--- | :--- |
+| **1. Authentication** | Log in using clinical staff credentials with MFA (Multi-Factor Auth). | Validates credentials and grants access to Medical Reviewer Portal. | Enforces strictly defined Clinical Reviewer RBAC permissions. |
+| **2. Queue Filtering** | Filter assessments by criteria: Emergency Flagged, Low AI Confidence, or Random Sample. | Displays a list of fully anonymized assessment transcripts and generated reports. | **Privacy Boundary:** All PII (Name, Email, Phone, IP) MUST be redacted. |
+| **3. Clinical Audit** | Inspect inputs (3D anatomical points, symptoms, demographics) and AI outputs (Conditions, Urgency, Specialty). | Shows raw AI prompt logs, symptom extraction breakdown, and final output report. | Read-only view of health parameters. No edit rights over live user data. |
+| **4. Feedback & Calibration** | Rate accuracy (1-5) and provide override corrections if specialty or urgency was misclassified. | Saves feedback log directly to the AI Prompt Calibration Dataset for developer review. | Creates an immutable Audit Trail entry linked to `Reviewer_ID`. |
+
+---
+
+### Key Requirements for Medical Reviewer:
+* **REVI-001 (Anonymized Log Access):** The system MUST strip all Personally Identifiable Information (PII) before displaying transcripts to the Medical Reviewer.
+* **REVI-002 (Prompt Feedback Loop):** The Reviewer MUST be able to submit structured clinical corrections (e.g., correct medical specialty, severity level adjustment) for AI prompt tuning.
+* **REVI-003 (Safety Audit Logs):** All emergency red-flag triggers MUST be accessible in a priority queue for clinical safety compliance audits.
