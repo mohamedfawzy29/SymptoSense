@@ -73,7 +73,7 @@ Each requirement follows the format:
 * **RPT-001 (Report Generation):** Upon assessment completion, the system MUST generate a structured report including:
   * Summary of reported symptoms.
   * Possible health explanations.
-  * Urgency level indicator (Low, Moderate, High, Urgent).
+  * Urgency level indicator (Urgent, Non-Urgent).
   * Recommended medical specialty (e.g., Cardiology, ENT, Neurology).
   * Prominent medical disclaimers.
 * **RPT-002 (Specialty Mapping):** The AI Engine MUST accurately map the evaluated symptom cluster to the most appropriate clinical specialty.
