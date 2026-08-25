@@ -156,7 +156,7 @@ This document outlines the core user journeys for **SymptoSense**. The goal of d
 Markdown
 ---
 
-## Journey 4: Medical Reviewer / Clinical Auditor Flow
+## Journey 4: Medical Reviewer / Clinical Auditor Flow (Future Design)
 
 ### Primary Actor
 * **Medical Reviewer / Clinical Specialist** (طبيب / مراجع طبي معتمد)
