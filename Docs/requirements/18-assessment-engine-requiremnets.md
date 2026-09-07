@@ -879,3 +879,6 @@ Future extensions shall not compromise the safety and traceability requirements 
 This document defines the required behavior and responsibilities of the Assessment Engine.
 
 The final implementation architecture, including the decision between Rule-Based, AI-Based, Hybrid, or another suitable approach, shall be determined by the SymptoSense team after reviewing this document and the related system requirements.
+
+---
+# Final decision Hyberd Assessement engine 
