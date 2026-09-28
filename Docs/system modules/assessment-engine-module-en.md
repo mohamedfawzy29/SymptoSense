@@ -2,9 +2,9 @@
 
 **Project:** SymptoSense  
 **Module Code:** AE  
-**Version:** 1.1  
+**Version:** 1.2  
 **Status:** Architectural Documentation — Pre-Implementation  
-**Last Updated:** 2026-09-22
+**Last Updated:** 2026-09-28
 
 ---
 
@@ -27,8 +27,8 @@ The Assessment Engine is not responsible for understanding natural language, gen
 | **AI Module** | Understands natural language, extracts and structures information, and helps communicate results. It does not make the final assessment decision. |
 | **Assessment Engine** | The authoritative component for assessment decisions. |
 | **UI / Frontend** | Collects and presents information. It does not make medical decisions. |
-| **Medical Knowledge Module** | Provides approved medical rules, safety rules, supported medical knowledge, and their versions. |
-| **Safety Rules** | Define safety conditions and red-flag rules. The Assessment Engine evaluates them. |
+| **Medical Knowledge Module** | Provides approved assessment rules, supported symptoms, conditions, and their versions. Does not contain Safety Rules or Red Flags. |
+| **Safety & Emergency Module** | An **independent module** that defines and evaluates safety conditions and red-flag rules. Called by the Assessment Engine via `ISafetyEvaluationService`. |
 
 > **Source:** `18-assessment-engine-requirements.md`, Business Rules.
 
@@ -48,8 +48,8 @@ The Assessment Engine is responsible for:
 - Evaluating multiple symptoms as a combined assessment context.
 - Identifying relationships between symptoms and organizing them into evaluation clusters when required.
 - Applying approved assessment rules.
-- Performing safety evaluation and evaluating red flags.
-- Determining the assessment urgency level (`Urgent` / `Non-Urgent` for the MVP).
+- **Calling** the Safety & Emergency Module via `ISafetyEvaluationService` to perform safety evaluation and red flag detection.
+- Determining the assessment urgency level based on the Safety Module's response (`Urgent` / `Non-Urgent` for the MVP).
 - Determining whether the assessment is complete.
 - Producing the assessment result.
 - Producing the structured information required by the communication layer to explain the result.
@@ -1072,23 +1072,26 @@ Return current required information / result
                     │   Medical Knowledge     │
                     │                         │
                     │ Assessment Rules        │
-                    │ Safety Rules             │
-                    │ Supported Coverage      │
-                    │ Knowledge Versions       │
+                    │ Supported Symptoms      │
+                    │ Supported Conditions    │
+                    │ Knowledge Versions      │
+                    │ (no Safety Rules here)  │
                     └────────────┬────────────┘
                                  │
                                  ▼
-┌───────────────┐       ┌───────────────────────┐
-│ AI /          │       │ Assessment Engine     │
-│ Communication │──────►│                       │
-│               │       │ Decision Authority    │
-└───────┬───────┘       └───────────┬───────────┘
-        ▲                            │
-        │                            ▼
-        │                   ┌───────────────────┐
-        └───────────────────│ Result / Required │
-                            │ Information       │
-                            └───────────────────┘
+┌───────────────┐       ┌───────────────────────┐       ┌──────────────────────────┐
+│ AI /          │       │ Assessment Engine     │──────►│ ISafetyEvaluationService │
+│ Communication │──────►│                       │       │  (Interface / Contract)  │
+│               │       │ Decision Authority    │       └────────────┬─────────────┘
+└───────┬───────┘       └───────────┬───────────┘                    │ implemented by
+        ▲                           │                                 ▼
+        │                           ▼                   ┌──────────────────────────┐
+        │                  ┌───────────────────┐        │ Safety & Emergency Module│
+        └──────────────────│ Result / Required │        │                          │
+                           │ Information       │        │ Red Flag Rules           │
+                           └───────────────────┘        │ Safety Rules             │
+                                                        │ Urgency Determination    │
+                                                        └──────────────────────────┘
 ```
 
 ### 9.2 Dependency Rules
