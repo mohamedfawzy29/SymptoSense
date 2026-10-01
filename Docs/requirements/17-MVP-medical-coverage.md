@@ -326,3 +326,11 @@ The Assessment Engine must operate within the boundaries of the approved medical
 The candidate symptoms, scoring, and preliminary Top 10 are recommendations for discussion only.
 
 The final MVP medical coverage shall be recorded after team review and approval.
+---
+# Final decision
+1- Headache
+2- Fever
+3- Cough
+4- Abdominal Pain	
+5- Chest Pain	
+6- Back Pain
